@@ -5,7 +5,7 @@ chrome.runtime.onInstalled.addListener(() => {
     title: "Szukaj w Cambridge Dictionary",
     contexts: ["selection"]
   });
-  
+
   // Option for Collins Dictionary
   chrome.contextMenus.create({
     id: "lookupCollins",
@@ -13,8 +13,6 @@ chrome.runtime.onInstalled.addListener(() => {
     contexts: ["selection"]
   });
 
-
-  
   // Opcja dla Forvo
   chrome.contextMenus.create({
     id: "lookupForvo",
@@ -22,8 +20,14 @@ chrome.runtime.onInstalled.addListener(() => {
     contexts: ["selection"]
   });
 
-  
-  
+  // Opcja dla https://www.diki.pl/
+  chrome.contextMenus.create({
+    id: "lookupDiki",
+    title: "Search in Diki",
+    contexts: ["selection"]
+  });
+
+
 });
 
 chrome.contextMenus.onClicked.addListener((info, tab) => {
@@ -39,7 +43,12 @@ chrome.contextMenus.onClicked.addListener((info, tab) => {
       url = url.replace(/%20/g, "-");
     } else if (info.menuItemId === "lookupForvo") {
       url = "https://pl.forvo.com/search/" + encodeURIComponent(selectedText) + "/";
+    } else if (info.menuItemId === "lookupDiki") {
+      url = "https://diki.pl/slownik-angielskiego?q=" + encodeURIComponent(selectedText);
+      url = url.replace(/%20/g, "+");
     }
+
+
     if (url) {
       chrome.tabs.create({ url: url });
     }
