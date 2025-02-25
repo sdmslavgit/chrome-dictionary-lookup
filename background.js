@@ -33,18 +33,18 @@ chrome.runtime.onInstalled.addListener(() => {
 chrome.contextMenus.onClicked.addListener((info, tab) => {
   const selectedText = info.selectionText.trim();
   if (selectedText.length > 0) {
+    const encodedText = encodeURIComponent(selectedText);
     let url = "";
     if (info.menuItemId === "lookupCambridge") {
-      url = "https://dictionary.cambridge.org/dictionary/english/" + encodeURIComponent(selectedText);
+      url = "https://dictionary.cambridge.org/dictionary/english/" + encodedText;
       url = url.replace(/%2B/g, "-");
     } else if (info.menuItemId === "lookupCollins") {
-      url = "https://www.collinsdictionary.com/dictionary/english/" + encodeURIComponent(selectedText);
-      url = url.replace(/%2B/g, "-");
-      url = url.replace(/%20/g, "-");
+      url = "https://www.collinsdictionary.com/dictionary/english/" + encodedText;
+      url = url.replace(/%2B|%20/g, "-");
     } else if (info.menuItemId === "lookupForvo") {
-      url = "https://pl.forvo.com/search/" + encodeURIComponent(selectedText) + "/";
+      url = "https://pl.forvo.com/search/" + encodedText + "/";
     } else if (info.menuItemId === "lookupDiki") {
-      url = "https://diki.pl/slownik-angielskiego?q=" + encodeURIComponent(selectedText);
+      url = "https://diki.pl/slownik-angielskiego?q=" + encodedText;
       url = url.replace(/%20/g, "+");
     }
 
